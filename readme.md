@@ -1,3 +1,60 @@
+# 🎮 Rhythm Runner: Automatic Beatmap Generation / 基于多层音频分析的自动谱面生成系统
+
+This project is a fully automated pipeline that converts arbitrary audio files into playable rhythm game levels.
+本项目构建了一个全自动的流水线，能将任意音频文件转化为可玩的音游关卡。
+Through comprehensive multi-layer audio analysis (MIR/DSP) and staged procedural synthesis, it generates Easy, Normal, and Hard charts without manual charting.
+通过全面的多层音频分析（MIR/DSP）与分阶段的程序化合成，无需人工打谱即可自动生成三种难度的谱面。
+It combines Python-based signal processing with the Godot engine.
+系统结合了基于 Python 的信号处理与 Godot 引擎。
+
+## 🚀 Key Contributions / 核心贡献
+
+- **Dynamic Difficulty:** Adjusts note density based on musical sections and intensity profiles.
+  **动态难度：** 根据音乐段落和强度动态调整谱面密度。
+- **Pattern Generation:** Guides note creation using melodic contours and frequency-band energy dominance.
+  **模式生成：** 基于旋律轮廓和频段能量主导原则引导音符生成。
+- **Robust Sustained Note Detection:** Automatically detects and maps hold notes.
+  **鲁棒的持续音符检测：** 自动检测并映射长按（Hold）音符。
+- **Feature-driven Selection:** Enemy and obstacle selection driven by spectral features.
+  **特征驱动选择：** 敌人与障碍物选择由频谱特征驱动。
+
+## ⚙️ System Architecture / 系统架构
+
+### Stage 1: Python Audio Analysis / 阶段一：Python 音频分析
+
+Uses `librosa` and `numpy` for offline audio analysis, extracting 15+ complementary descriptors.
+使用 `librosa` 和 `numpy` 进行离线音频分析，提取超过 15 种互补的描述符：
+- **Temporal / 时域:** Tempo, beats, onset times, and strengths. (BPM、节拍、起音时间及强度)
+- **Spectral / 频谱:** Spectral centroid, rolloff, flatness, flux. (频谱质心、滚降、平坦度、通量)
+- **Energy & Dynamics / 能量与动态:** RMS energy, dynamic range, frequency band energy. (RMS 能量、动态范围、频段能量)
+- **Structure & Melody / 结构与旋律:** HPSS, CQT chroma, recurrence segmentation, melodic contours. (谐波/打击乐分离、色度特征、重复性分段、旋律轮廓提取)
+
+### Stage 2: Godot Gameplay Execution / 阶段二：Godot 游戏执行
+
+The generated JSON beatmaps are ingested by the Godot engine.
+生成的 JSON 谱面被导入 Godot 引擎。
+The engine synchronizes note spawning to the playback timeline.
+引擎将音符生成与音乐播放时间轴完美同步。
+It runs a dual-lane side-scrolling game with a distance-based judgment system.
+运行带有基于空间距离判定系统的双轨横版游戏。
+
+## 👤 Personal Contribution (Yiming Zhao) / 个人贡献
+
+- **Music Selection & UI Design:** Selected music tracks and designed/implemented the in-game track preview and selection interface.
+  **选曲与 UI 设计：** 负责音乐曲目挑选，以及游戏内曲目预览与选择界面的设计与代码实现。
+- **Music Trend Enhancement:** Enhanced the musical trend analysis and peak-aware adjustments.
+  **音乐趋势增强：** 优化了音乐趋势分析算法与峰值感知调整逻辑。
+  Ensuring beatmap density and emphasis follow the song's dynamic contours.
+  确保生成的谱面密度与重点能完美契合歌曲的动态起伏。
+
+## 🛠️ Technology Stack / 技术栈
+
+- **Audio Analysis / 音频分析:** Python, Librosa, NumPy
+- **Game Engine / 游戏引擎:** Godot Engine, GDScript
+- **Data Format / 数据格式:** JSON
+
+*(Source code, full AIST2010 project report, and demo video are available in this repository.)*
+*(完整的 Python 分析脚本、AIST2010 项目报告与演示视频已上传至本仓库。)*
 1. 问题诊断：为什么纯Pygame方案风险高？
 
 •   音频延迟与同步精度： Pygame的 mixer 模块是为一般性音频播放设计的，其时序控制（如 pygame.mixer.music.get_pos()）不够精确，无法满足节奏游戏严苛的同步要求。延迟和抖动会严重影响游戏体验。
