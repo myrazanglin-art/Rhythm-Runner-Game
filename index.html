@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,33 +8,22 @@
         @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Noto+Sans+SC:wght@400;700;900&display=swap');
 
         :root {
-            --bg-gradient: linear-gradient(135deg, #ffe6f2 0%, #e6f7ff 100%);
-            --primary-pink: #ff2a7a;
-            --primary-blue: #00c3ff;
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.9);
-            --text-main: #1a1a1a;
-            --text-sub: #555;
-        }
-
-        /* 针对夜间模式自动切换霓虹暗色 */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-gradient: linear-gradient(135deg, #1a0010 0%, #00101a 100%);
-                --primary-pink: #ff5e9c;
-                --primary-blue: #00f0ff;
-                --glass-bg: rgba(20, 20, 25, 0.65);
-                --glass-border: rgba(255, 94, 156, 0.3);
-                --text-main: #f0f0f0;
-                --text-sub: #a0a0a0;
-            }
+            --bg: #0d0d12;
+            --accent-pink: #ff2a7a;
+            --accent-blue: #00c3ff;
+            --text: #f0f0f0;
+            --text-sub: #a0a0a0;
+            --border: rgba(255, 255, 255, 0.1);
         }
 
         body {
             font-family: 'Noto Sans SC', sans-serif;
-            background: var(--bg-gradient);
-            background-attachment: fixed;
-            color: var(--text-main);
+            background-color: var(--bg);
+            /* 增加了极具质感的极简网格背景 */
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(255, 42, 122, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(0, 195, 255, 0.08), transparent 25%);
+            color: var(--text);
             line-height: 1.8;
             margin: 0;
             padding: 0;
@@ -43,161 +32,125 @@
 
         .hero {
             text-align: center;
-            padding: 100px 20px 60px;
-            position: relative;
+            padding: 120px 20px 60px;
         }
 
         .hero h1 {
-            font-size: 5em;
+            font-size: 5.5em;
             font-weight: 900;
             margin: 0;
-            letter-spacing: 2px;
-            /* 极致赛博渐变文字 */
-            background: linear-gradient(90deg, var(--primary-pink), var(--primary-blue), var(--primary-pink));
-            background-size: 200% auto;
+            letter-spacing: -2px;
+            /* 保持完美渐变 */
+            background: linear-gradient(90deg, var(--accent-pink), var(--accent-blue));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: gradient 3s linear infinite;
-            text-shadow: 0 10px 30px rgba(255, 42, 122, 0.3);
-        }
-
-        @keyframes gradient {
-            to { background-position: 200% center; }
-        }
-
-        .hero .subtitle {
-            font-family: 'Fira Code', monospace;
-            font-size: 1.5em;
-            color: var(--primary-blue);
-            font-weight: bold;
-            margin-top: 10px;
-            letter-spacing: 1px;
-            text-shadow: 0 0 10px rgba(0, 195, 255, 0.5);
+            text-shadow: 0 10px 40px rgba(255, 42, 122, 0.2);
         }
 
         .container {
-            max-width: 900px;
+            max-width: 850px;
             margin: 0 auto;
             padding: 20px;
-            position: relative;
-            z-index: 10;
         }
 
-        /* 次世代高光毛玻璃卡片 */
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 40px;
-            margin-bottom: 40px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.05), inset 0 0 0 1px rgba(255,255,255,0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        /* 彻底取消大白框，改用极简的分割线排版 */
+        .section {
+            margin-bottom: 80px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid var(--border);
         }
 
-        @media (prefers-color-scheme: dark) {
-            .glass-card {
-                box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.05);
-            }
-        }
-
-        .glass-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 30px 60px rgba(255, 42, 122, 0.15);
+        .section:last-child {
+            border-bottom: none;
         }
 
         h2 {
-            color: var(--primary-pink);
-            font-size: 1.8em;
-            font-weight: 900;
-            border-bottom: 3px solid transparent;
-            border-image: linear-gradient(90deg, var(--primary-pink), var(--primary-blue)) 1;
-            padding-bottom: 15px;
-            margin-top: 0;
+            color: var(--accent-blue);
+            font-size: 1.5em;
+            font-family: 'Fira Code', monospace;
+            margin-bottom: 25px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .en-text {
-            font-family: 'Fira Code', monospace;
-            color: var(--text-sub);
-            font-size: 0.95em;
-            margin-top: -5px;
-            margin-bottom: 25px;
-            display: block;
-            font-style: italic;
+        h2::before {
+            content: ">>";
+            color: var(--accent-pink);
+            font-weight: bold;
         }
 
-        p {
-            font-size: 1.1em;
-            margin-bottom: 15px;
+        /* 英文优先排版 */
+        .en {
+            font-size: 1.15em;
+            color: #e0e0e0;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .zh {
+            font-size: 0.95em;
+            color: var(--text-sub);
+            font-family: 'Noto Sans SC', sans-serif;
         }
 
         ul {
             padding-left: 20px;
+            list-style-type: square;
         }
 
         li {
             margin-bottom: 15px;
-            font-size: 1.05em;
+            color: #ccc;
         }
 
         .highlight {
-            color: var(--primary-blue);
-            font-weight: bold;
+            color: var(--accent-pink);
             font-family: 'Fira Code', monospace;
+            font-weight: bold;
         }
 
-        .tech-stack {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 15px;
-        }
-
-        .tech-tag {
-            background: rgba(0, 195, 255, 0.1);
-            color: var(--primary-blue);
-            border: 2px solid var(--primary-blue);
-            padding: 6px 16px;
-            border-radius: 30px;
+        .code-block {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 3px solid var(--accent-blue);
+            padding: 15px 20px;
+            margin: 20px 0;
+            font-family: 'Fira Code', monospace;
             font-size: 0.9em;
-            font-weight: bold;
-            font-family: 'Fira Code', monospace;
-            box-shadow: 0 0 10px rgba(0, 195, 255, 0.2);
+            color: #00c3ff;
         }
 
         .btn-container {
             text-align: center;
-            margin: 60px 0 40px;
+            margin: 80px 0 60px;
         }
 
         .download-btn {
             display: inline-block;
-            padding: 20px 50px;
-            font-size: 1.3em;
-            font-weight: 900;
+            padding: 18px 45px;
+            font-size: 1.1em;
+            font-weight: bold;
+            font-family: 'Fira Code', monospace;
             color: #fff;
-            background: linear-gradient(90deg, var(--primary-pink), var(--primary-blue));
+            background: linear-gradient(90deg, var(--accent-pink), var(--accent-blue));
             text-decoration: none;
-            border-radius: 50px;
+            border-radius: 8px; /* 换成方形圆角更硬核 */
             transition: 0.3s;
-            box-shadow: 0 10px 30px rgba(255, 42, 122, 0.4);
+            box-shadow: 0 4px 15px rgba(255, 42, 122, 0.3);
         }
 
         .download-btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 15px 40px rgba(0, 195, 255, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 195, 255, 0.4);
         }
 
         .footer {
             text-align: center;
-            padding: 40px 20px;
-            color: var(--text-sub);
-            font-size: 0.9em;
+            padding: 40px;
+            color: #555;
+            font-size: 0.8em;
             font-family: 'Fira Code', monospace;
+            border-top: 1px solid var(--border);
         }
     </style>
 </head>
@@ -205,70 +158,65 @@
 
     <div class="hero">
         <h1>Rhythm Runner</h1>
-        <div class="subtitle">// MUSIC-DRIVEN SIDE-SCROLLING GAME</div>
     </div>
 
     <div class="container">
         
-        <div class="glass-card">
-            <h2>🌸 项目简介 / Project Overview</h2>
-            <p><b>Rhythm Runner</b> 是一款受《Muse Dash》启发的 2D 音乐节奏游戏。但与传统音游不同，我们构建了一个全自动的谱面生成流水线（Pipeline）。</p>
-            <span class="en-text">Rhythm Runner is a Muse Dash-inspired 2D rhythm game. Unlike traditional rhythm games, we built a fully automated beatmap generation pipeline.</span>
-            <p>系统能够将任意音频文件转化为可玩的关卡，通过深度音频分析与程序化合成，自动生成 Easy、Normal、Hard 三种动态难度的谱面。</p>
-            <span class="en-text">The system converts arbitrary audio files into playable levels, automatically generating dynamic charts for Easy, Normal, and Hard modes through deep audio analysis and procedural synthesis.</span>
+        <div class="section">
+            <h2>PROJECT_OVERVIEW</h2>
+            <p class="en">Rhythm Runner is a 2D rhythm game that abandons manual charting. It features a fully automated pipeline driven by multi-layer audio analysis, translating arbitrary audio files into playable levels.</p>
+            <p class="zh">Rhythm Runner 是一款抛弃了人工打谱的 2D 音乐节奏游戏。它由多层音频分析驱动，全自动地将任意音频转化为可玩的游戏关卡。</p>
+            <p class="en" style="margin-top: 20px;">Built for complex genres like experimental electronic, post-rock, and indie music, the system generates dynamic Easy, Normal, and Hard charts in real time.</p>
+            <p class="zh">针对实验电子、后摇和独立音乐等复杂流派，系统能够实时生成动态的 Easy、Normal 和 Hard 谱面。</p>
         </div>
 
-        <div class="glass-card">
-            <h2>🎛️ 实验音乐与音频分析 / Audio DSP & MIR</h2>
-            <p>我们没有依赖单调的 BPM 节拍，而是针对实验电子、后摇、独立音乐等复杂音频，提取了超过 15 种深度特征。</p>
-            <span class="en-text">We didn't rely on monotonous BPM beats. Instead, we extracted 15+ deep features tailored for complex audio like experimental electronic, post-rock, and indie music.</span>
-            <ul>
-                <li><b>时域与频谱 / Temporal & Spectral:</b> 起音检测 (Onsets)、频谱质心 (Centroid)、频谱通量 (Flux)。</li>
-                <li><b>能量与动态 / Energy & Dynamics:</b> RMS 包络、动态范围、高频与低频段能量。</li>
-                <li><b>谐波与旋律 / HPSS & Melody:</b> 使用 HPSS 分离打击乐与谐波，用 Piptrack 提取旋律轮廓 (Contours)。</li>
-            </ul>
-        </div>
-
-        <div class="glass-card">
-            <h2>⚙️ 核心架构 / Core Architecture</h2>
-            <ul>
-                <li><span class="highlight">Stage 1: Python & Librosa</span><br>负责离线音频分析，提取 15+ 维度特征，并基于段落强度动态生成 JSON 格式的谱面文件。</li>
-                <li><span class="highlight">Stage 2: Godot Engine</span><br>接收 JSON 谱面，基于距离的实时判定系统（Distance-based judgment），运行双轨横版跑酷玩法。</li>
-            </ul>
-        </div>
-
-        <div class="glass-card">
-            <h2>👤 个人贡献 / My Contribution</h2>
-            <p><b>Yiming Zhao</b></p>
-            <ul>
-                <li><b>选曲与 UI 设计 / Music Selection & UI Design:</b> 设计并实现了游戏内的曲目预览与选择界面，契合独立音乐氛围。</li>
-                <li><b>音乐趋势增强 / Musical Trend Enhancement:</b> 优化了峰值感知调整逻辑（Peak-aware adjustments），确保生成的谱面密度完美契合歌曲的动态起伏。</li>
-            </ul>
-        </div>
-
-        <div class="glass-card">
-            <h2>🛠️ 技术栈 / Tech Stack</h2>
-            <div class="tech-stack">
-                <span class="tech-tag">Python</span>
-                <span class="tech-tag">Librosa</span>
-                <span class="tech-tag">NumPy</span>
-                <span class="tech-tag">Godot Engine</span>
-                <span class="tech-tag">GDScript</span>
-                <span class="tech-tag">JSON</span>
-                <span class="tech-tag">Audio DSP</span>
+        <div class="section">
+            <h2>COMPUTER_MUSIC_&_DSP</h2>
+            <p class="en">Instead of relying on monotonous BPM tracking, we extract 15+ complementary descriptors to understand the soul of the track.</p>
+            <p class="zh">我们没有依赖单调的 BPM 节拍追踪，而是提取了 15 种以上的互补描述符来理解音轨的灵魂：</p>
+            
+            <div class="code-block">
+                librosa.feature.spectral_centroid()<br>
+                librosa.feature.spectral_rolloff()<br>
+                librosa.feature.spectral_flatness()<br>
+                librosa.feature.zero_crossing_rate()
             </div>
+
+            <ul>
+                <li><span class="highlight">Spectral & Temporal:</span> Extracts onset strengths, spectral flux, and zero-crossing rate to capture the density and chaotic energy of the audio.</li>
+                <li><span class="highlight">Energy & Dynamics:</span> Maps RMS energy and dynamic range to dynamically scale the density of obstacles and enemies in sections like choruses or ambient breakdowns.</li>
+                <li><span class="highlight">HPSS & Melodic Contours:</span> Utilizes Harmonic-Percussive Source Separation (HPSS) and piptrack to detect sustained holds and melodic gestures, mapping them into specific note types.</li>
+                <li><span class="highlight">Structural Segmentation:</span> Uses CQT chroma and recurrence segmentation to identify musical sections, driving the dynamic difficulty adjustments.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>ENGINE_ARCHITECTURE</h2>
+            <ul>
+                <li><span class="highlight">Stage 1: Python Offline Analysis</span><br>
+                    <span class="en">Extracts multi-dimensional features and serializes them into a JSON beatmap, assigning notes to dual lanes based on frequency band dominance.</span>
+                </li>
+                <li><span class="highlight">Stage 2: Godot Real-time Execution</span><br>
+                    <span class="en">Ingests the JSON data, spawning entities early to ensure perfect travel time. Features a distance-based judgment system that scales with difficulty for precise rhythmic feedback.</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>TECH_STACK</h2>
+            <p class="en">Python | Librosa | NumPy | Godot Engine | GDScript | JSON Serialization</p>
         </div>
 
         <div class="btn-container">
             <a href="https://github.com/myrazanglin-art/Rhythm-Runner-Game" class="download-btn">
-                ⬇️ 查看源码与下载项目 / Download Source
+                [ View Source Code & Download ]
             </a>
         </div>
 
     </div>
 
     <div class="footer">
-        © 2024 Yiming Zhao. Bridging Computer Music & Gameplay.
+        © 2025 Yiming Zhao. Bridging Computer Music & Gameplay.
     </div>
 
 </body>
