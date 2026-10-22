@@ -3,28 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rhythm Runner | 实验音乐驱动的音游</title>
+    <title>Rhythm Runner | Audio-Driven Game</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Noto+Sans+SC:wght@400;700;900&display=swap');
 
         :root {
-            --bg-color: #0d0d12;
-            --primary-pink: #ff5e9c;
-            --cyber-blue: #00f0ff;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 94, 156, 0.3);
-            --text-main: #f0f0f0;
-            --text-sub: #a0a0a0;
+            --bg-gradient: linear-gradient(135deg, #ffe6f2 0%, #e6f7ff 100%);
+            --primary-pink: #ff2a7a;
+            --primary-blue: #00c3ff;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.9);
+            --text-main: #1a1a1a;
+            --text-sub: #555;
+        }
+
+        /* 针对夜间模式自动切换霓虹暗色 */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-gradient: linear-gradient(135deg, #1a0010 0%, #00101a 100%);
+                --primary-pink: #ff5e9c;
+                --primary-blue: #00f0ff;
+                --glass-bg: rgba(20, 20, 25, 0.65);
+                --glass-border: rgba(255, 94, 156, 0.3);
+                --text-main: #f0f0f0;
+                --text-sub: #a0a0a0;
+            }
         }
 
         body {
             font-family: 'Noto Sans SC', sans-serif;
-            background-color: var(--bg-color);
-            /* 添加微妙的网格与发光背景，致敬音游 */
-            background-image: 
-                linear-gradient(rgba(255, 94, 156, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 94, 156, 0.05) 1px, transparent 1px);
-            background-size: 30px 30px;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
             color: var(--text-main);
             line-height: 1.8;
             margin: 0;
@@ -34,57 +43,77 @@
 
         .hero {
             text-align: center;
-            padding: 80px 20px 40px;
+            padding: 100px 20px 60px;
             position: relative;
         }
 
         .hero h1 {
-            font-size: 4em;
+            font-size: 5em;
             font-weight: 900;
             margin: 0;
             letter-spacing: 2px;
-            background: linear-gradient(90deg, var(--primary-pink), var(--cyber-blue));
+            /* 极致赛博渐变文字 */
+            background: linear-gradient(90deg, var(--primary-pink), var(--primary-blue), var(--primary-pink));
+            background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(255, 94, 156, 0.3);
+            animation: gradient 3s linear infinite;
+            text-shadow: 0 10px 30px rgba(255, 42, 122, 0.3);
+        }
+
+        @keyframes gradient {
+            to { background-position: 200% center; }
         }
 
         .hero .subtitle {
             font-family: 'Fira Code', monospace;
-            font-size: 1.2em;
-            color: var(--cyber-blue);
+            font-size: 1.5em;
+            color: var(--primary-blue);
+            font-weight: bold;
             margin-top: 10px;
             letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(0, 195, 255, 0.5);
         }
 
         .container {
             max-width: 900px;
             margin: 0 auto;
             padding: 20px;
+            position: relative;
+            z-index: 10;
         }
 
-        /* 毛玻璃卡片设计 */
+        /* 次世代高光毛玻璃卡片 */
         .glass-card {
             background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 30px;
-            margin-bottom: 30px;
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05), inset 0 0 0 1px rgba(255,255,255,0.2);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
+        @media (prefers-color-scheme: dark) {
+            .glass-card {
+                box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.05);
+            }
+        }
+
         .glass-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(255, 94, 156, 0.15);
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px rgba(255, 42, 122, 0.15);
         }
 
         h2 {
             color: var(--primary-pink);
-            font-size: 1.5em;
-            border-bottom: 2px dashed rgba(255, 94, 156, 0.5);
-            padding-bottom: 10px;
+            font-size: 1.8em;
+            font-weight: 900;
+            border-bottom: 3px solid transparent;
+            border-image: linear-gradient(90deg, var(--primary-pink), var(--primary-blue)) 1;
+            padding-bottom: 15px;
             margin-top: 0;
             display: flex;
             align-items: center;
@@ -94,10 +123,16 @@
         .en-text {
             font-family: 'Fira Code', monospace;
             color: var(--text-sub);
-            font-size: 0.9em;
+            font-size: 0.95em;
             margin-top: -5px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             display: block;
+            font-style: italic;
+        }
+
+        p {
+            font-size: 1.1em;
+            margin-bottom: 15px;
         }
 
         ul {
@@ -106,60 +141,61 @@
 
         li {
             margin-bottom: 15px;
+            font-size: 1.05em;
         }
 
         .highlight {
-            color: var(--cyber-blue);
+            color: var(--primary-blue);
             font-weight: bold;
             font-family: 'Fira Code', monospace;
         }
 
-        /* 标签栏 */
         .tech-stack {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 12px;
             margin-top: 15px;
         }
 
         .tech-tag {
-            background: rgba(0, 240, 255, 0.1);
-            color: var(--cyber-blue);
-            border: 1px solid var(--cyber-blue);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.85em;
+            background: rgba(0, 195, 255, 0.1);
+            color: var(--primary-blue);
+            border: 2px solid var(--primary-blue);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.9em;
+            font-weight: bold;
             font-family: 'Fira Code', monospace;
+            box-shadow: 0 0 10px rgba(0, 195, 255, 0.2);
         }
 
-        /* 下载按钮 */
         .btn-container {
             text-align: center;
-            margin: 50px 0;
+            margin: 60px 0 40px;
         }
 
         .download-btn {
             display: inline-block;
-            padding: 16px 40px;
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #000;
-            background: linear-gradient(90deg, var(--primary-pink), var(--cyber-blue));
+            padding: 20px 50px;
+            font-size: 1.3em;
+            font-weight: 900;
+            color: #fff;
+            background: linear-gradient(90deg, var(--primary-pink), var(--primary-blue));
             text-decoration: none;
-            border-radius: 30px;
+            border-radius: 50px;
             transition: 0.3s;
-            box-shadow: 0 0 20px rgba(255, 94, 156, 0.4);
+            box-shadow: 0 10px 30px rgba(255, 42, 122, 0.4);
         }
 
         .download-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(0, 240, 255, 0.6);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 195, 255, 0.5);
         }
 
         .footer {
             text-align: center;
             padding: 40px 20px;
-            color: #555;
+            color: var(--text-sub);
             font-size: 0.9em;
             font-family: 'Fira Code', monospace;
         }
@@ -169,7 +205,7 @@
 
     <div class="hero">
         <h1>Rhythm Runner</h1>
-        <div class="subtitle">// Music-Driven Side-Scrolling Game</div>
+        <div class="subtitle">// MUSIC-DRIVEN SIDE-SCROLLING GAME</div>
     </div>
 
     <div class="container">
@@ -225,7 +261,7 @@
 
         <div class="btn-container">
             <a href="https://github.com/myrazanglin-art/Rhythm-Runner-Game" class="download-btn">
-                ⬇️ 查看源码与下载项目 / View Source on GitHub
+                ⬇️ 查看源码与下载项目 / Download Source
             </a>
         </div>
 
