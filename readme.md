@@ -7,16 +7,6 @@ Through comprehensive multi-layer audio analysis (MIR/DSP) and staged procedural
 It combines Python-based signal processing with the Godot engine.
 系统结合了基于 Python 的信号处理与 Godot 引擎。
 
-## 🚀 Key Contributions / 核心贡献
-
-- **Dynamic Difficulty:** Adjusts note density based on musical sections and intensity profiles.
-  **动态难度：** 根据音乐段落和强度动态调整谱面密度。
-- **Pattern Generation:** Guides note creation using melodic contours and frequency-band energy dominance.
-  **模式生成：** 基于旋律轮廓和频段能量主导原则引导音符生成。
-- **Robust Sustained Note Detection:** Automatically detects and maps hold notes.
-  **鲁棒的持续音符检测：** 自动检测并映射长按（Hold）音符。
-- **Feature-driven Selection:** Enemy and obstacle selection driven by spectral features.
-  **特征驱动选择：** 敌人与障碍物选择由频谱特征驱动。
 
 ## ⚙️ System Architecture / 系统架构
 
@@ -37,15 +27,6 @@ The engine synchronizes note spawning to the playback timeline.
 引擎将音符生成与音乐播放时间轴完美同步。
 It runs a dual-lane side-scrolling game with a distance-based judgment system.
 运行带有基于空间距离判定系统的双轨横版游戏。
-
-## 👤 Personal Contribution (Yiming Zhao) / 个人贡献
-
-- **Music Selection & UI Design:** Selected music tracks and designed/implemented the in-game track preview and selection interface.
-  **选曲与 UI 设计：** 负责音乐曲目挑选，以及游戏内曲目预览与选择界面的设计与代码实现。
-- **Music Trend Enhancement:** Enhanced the musical trend analysis and peak-aware adjustments.
-  **音乐趋势增强：** 优化了音乐趋势分析算法与峰值感知调整逻辑。
-  Ensuring beatmap density and emphasis follow the song's dynamic contours.
-  确保生成的谱面密度与重点能完美契合歌曲的动态起伏。
 
 ## 🛠️ Technology Stack / 技术栈
 
