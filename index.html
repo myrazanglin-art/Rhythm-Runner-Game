@@ -41,6 +41,50 @@
             overflow-x: hidden;
         }
 
+        /* 左右两侧专辑封面瀑布流 */
+        .bg-gallery {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 250px;
+            pointer-events: none;
+            z-index: -1; /* 放在最底层 */
+            overflow: hidden;
+            opacity: 0.15; /* 极低透明度 */
+            mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+        }
+
+        .bg-gallery.left { left: 0; }
+        .bg-gallery.right { right: 0; }
+
+        .gallery-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            animation: scrollUp 40s linear infinite;
+        }
+
+        .bg-gallery.right .gallery-column {
+            animation: scrollDown 45s linear infinite;
+        }
+
+        .gallery-column img {
+            width: 100%;
+            border-radius: 8px;
+            filter: grayscale(100%);
+        }
+
+        @keyframes scrollUp {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-50%); }
+        }
+
+        @keyframes scrollDown {
+            0% { transform: translateY(-50%); }
+            100% { transform: translateY(0); }
+        }
+
         .nav {
             padding: 20px 40px;
             display: flex;
@@ -100,6 +144,8 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 40px 20px 100px;
+            position: relative;
+            z-index: 10; /* 确保文字在背景之上 */
         }
 
         .section {
@@ -181,6 +227,8 @@
             color: var(--text-sub);
             font-size: 0.85em;
             border-top: 1px solid var(--divider);
+            position: relative;
+            z-index: 10;
         }
 
         /* Chatbot 悬浮按钮 */
@@ -294,6 +342,36 @@
 </head>
 <body data-theme="dark">
 
+    <!-- 左侧专辑瀑布流 -->
+    <div class="bg-gallery left">
+        <div class="gallery-column">
+            <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=300&q=80" alt="album">
+            <img src="https://images.unsplash.com/photo-1520637836862-4d197d17c90a?w=300&q=80" alt="album">
+            <img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=300&q=80" alt="album">
+            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=300&q=80" alt="album">
+            <!-- 复制一遍以形成无限滚动 -->
+            <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=300&q=80" alt="album">
+            <img src="https://images.unsplash.com/photo-1520637836862-4d197d17c90a?w=300&q=80" alt="album">
+            <img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=300&q=80" alt="album">
+            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=300&q=80" alt="album">
+        </div>
+    </div>
+
+    <!-- 右侧专辑瀑布流 -->
+    <div class="bg-gallery right">
+        <div class="gallery-column">
+            <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=300&q=80" alt="album">
+            <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=300&q=80" alt="album">
+            <img src="https://images.unsplash.com/photo-1516280440502-863a346513c1?w=300&q=80" alt="album">
+            <img src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=300&q=80" alt="album">
+            <!-- 复制一遍以形成无限滚动 -->
+            <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=300&q=80" alt="album">
+            <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=300&q=80" alt="album">
+            <img src="https://images.unsplash.com/photo-1516280440502-863a346513c1?w=300&q=80" alt="album">
+            <img src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=300&q=80" alt="album">
+        </div>
+    </div>
+
     <div class="nav">
         <button class="theme-toggle" onclick="toggleTheme()">🌙 NIGHT</button>
     </div>
@@ -333,25 +411,6 @@
                     <b>HPSS & Melodic Contours</b>
                     Utilizes Harmonic-Percussive Source Separation and piptrack to detect sustained holds and melodic gestures.
                 </li>
-                <li>
-                    <b>Structural Segmentation</b>
-                    Uses CQT chroma and recurrence segmentation to identify musical sections, driving dynamic difficulty adjustments.
-                </li>
-            </ul>
-        </div>
-
-        <div class="section">
-            <div class="accent-line"></div>
-            <h2>Engine Architecture</h2>
-            <ul class="feature-list">
-                <li>
-                    <b>Stage 1: Python Offline Analysis</b>
-                    Extracts multi-dimensional features and serializes them into a JSON beatmap, assigning notes to dual lanes based on frequency band dominance.
-                </li>
-                <li>
-                    <b>Stage 2: Godot Real-time Execution</b>
-                    Ingests JSON data, spawning entities early to ensure perfect travel time. Features a distance-based judgment system for precise rhythmic feedback.
-                </li>
             </ul>
         </div>
 
@@ -384,7 +443,6 @@
     </div>
 
     <script>
-        // 切换日夜模式
         function toggleTheme() {
             const body = document.body;
             const btn = document.querySelector('.theme-toggle');
@@ -397,43 +455,33 @@
             }
         }
 
-        // 开关聊天窗口
         function toggleChat() {
             const chat = document.getElementById('chatWindow');
             chat.classList.toggle('active');
         }
 
-        // 处理回车键发送
         function handleKeyPress(e) {
             if (e.key === 'Enter') sendMessage();
         }
 
-        // 发送消息与本地 AI 知识库逻辑
         function sendMessage() {
             const input = document.getElementById('chatInput');
             const text = input.value.trim().toLowerCase();
             if (!text) return;
 
             const chatBody = document.getElementById('chatBody');
-
-            // 添加用户消息
             const userMsg = document.createElement('div');
             userMsg.className = 'msg msg-user';
             userMsg.innerText = input.value;
             chatBody.appendChild(userMsg);
             input.value = '';
-
-            // 滚动到底部
             chatBody.scrollTop = chatBody.scrollHeight;
 
-            // 模拟 AI 思考延迟
             setTimeout(() => {
                 const botMsg = document.createElement('div');
                 botMsg.className = 'msg msg-bot';
-                
                 let reply = "诶嘿，这个问题有点深奥呢... (・_・;) 不如问问关于 HPSS、特征提取 (Features) 或者动态难度 (Dynamic Difficulty) 的事情吧！";
                 
-                // 基于论文知识库的简单匹配逻辑
                 if (text.includes('hpss') || text.includes('harmonic') || text.includes('percussive') || text.includes('谐波')) {
                     reply = "HPSS (Harmonic-Percussive Source Separation) 是核心哦！它能将音频精准分离为谐波（旋律/人声）和打击乐（鼓点）。这样系统就能把旋律映射成长按 Hold 音符，把鼓点变成敌人，超厉害的！✨";
                 } else if (text.includes('feature') || text.includes('特征') || text.includes('分析') || text.includes('实验音乐')) {
@@ -442,8 +490,6 @@
                     reply = "动态难度可是灵魂！系统通过 RMS 能量和动态范围来判断副歌和安静段落。安静的地方音符少，到了 Drop 高潮部分，障碍物密度会跟着能量一起爆发的！🤯";
                 } else if (text.includes('godot') || text.includes('引擎')) {
                     reply = "游戏在 Godot 引擎里跑哦！Python 算好 JSON 谱面后，Godot 会提前生成实体。基于距离的判定系统（Distance-based judgment）能保证打击感绝对精准！🎮";
-                } else if (text.includes('hello') || text.includes('你好') || text.includes('hi')) {
-                    reply = "欢迎来到 Rhythm Runner！这里是脱胎于硬核音频算法的音游世界，准备好体验真正的节奏了吗？(๑•̀ㅂ•́)و✧";
                 }
 
                 botMsg.innerText = reply;
