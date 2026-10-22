@@ -48,11 +48,11 @@
             bottom: 0;
             width: 250px;
             pointer-events: none;
-            z-index: -1; /* 放在最底层 */
+            z-index: -1;
             overflow: hidden;
-            opacity: 0.15; /* 极低透明度 */
-            mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
-            -webkit-mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+            opacity: 0.15;
+            mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
         }
 
         .bg-gallery.left { left: 0; }
@@ -73,6 +73,7 @@
             width: 100%;
             border-radius: 8px;
             filter: grayscale(100%);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
         @keyframes scrollUp {
@@ -145,7 +146,7 @@
             margin: 0 auto;
             padding: 40px 20px 100px;
             position: relative;
-            z-index: 10; /* 确保文字在背景之上 */
+            z-index: 10;
         }
 
         .section {
@@ -342,33 +343,43 @@
 </head>
 <body data-theme="dark">
 
-    <!-- 左侧专辑瀑布流 -->
+    <!-- 左侧专辑瀑布流 (1-7) -->
     <div class="bg-gallery left">
         <div class="gallery-column">
-            <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=300&q=80" alt="album">
-            <img src="https://images.unsplash.com/photo-1520637836862-4d197d17c90a?w=300&q=80" alt="album">
-            <img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=300&q=80" alt="album">
-            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=300&q=80" alt="album">
+            <img src="assets/1.jpg" alt="album">
+            <img src="assets/2.jpg" alt="album">
+            <img src="assets/3.jpg" alt="album">
+            <img src="assets/4.jpg" alt="album">
+            <img src="assets/5.jpg" alt="album">
+            <img src="assets/6.jpg" alt="album">
+            <img src="assets/7.jpg" alt="album">
             <!-- 复制一遍以形成无限滚动 -->
-            <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=300&q=80" alt="album">
-            <img src="https://images.unsplash.com/photo-1520637836862-4d197d17c90a?w=300&q=80" alt="album">
-            <img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=300&q=80" alt="album">
-            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=300&q=80" alt="album">
+            <img src="assets/1.jpg" alt="album">
+            <img src="assets/2.jpg" alt="album">
+            <img src="assets/3.jpg" alt="album">
+            <img src="assets/4.jpg" alt="album">
+            <img src="assets/5.jpg" alt="album">
+            <img src="assets/6.jpg" alt="album">
+            <img src="assets/7.jpg" alt="album">
         </div>
     </div>
 
-    <!-- 右侧专辑瀑布流 -->
+    <!-- 右侧专辑瀑布流 (8-13) -->
     <div class="bg-gallery right">
         <div class="gallery-column">
-            <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=300&q=80" alt="album">
-            <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=300&q=80" alt="album">
-            <img src="https://images.unsplash.com/photo-1516280440502-863a346513c1?w=300&q=80" alt="album">
-            <img src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=300&q=80" alt="album">
+            <img src="assets/8.jpg" alt="album">
+            <img src="assets/9.jpg" alt="album">
+            <img src="assets/10.jpg" alt="album">
+            <img src="assets/11.jpg" alt="album">
+            <img src="assets/12.jpg" alt="album">
+            <img src="assets/13.jpg" alt="album">
             <!-- 复制一遍以形成无限滚动 -->
-            <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=300&q=80" alt="album">
-            <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=300&q=80" alt="album">
-            <img src="https://images.unsplash.com/photo-1516280440502-863a346513c1?w=300&q=80" alt="album">
-            <img src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=300&q=80" alt="album">
+            <img src="assets/8.jpg" alt="album">
+            <img src="assets/9.jpg" alt="album">
+            <img src="assets/10.jpg" alt="album">
+            <img src="assets/11.jpg" alt="album">
+            <img src="assets/12.jpg" alt="album">
+            <img src="assets/13.jpg" alt="album">
         </div>
     </div>
 
