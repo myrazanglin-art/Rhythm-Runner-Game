@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rhythm Runner | Audio-Driven Game</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #0A0A0A;
+            color: #00FFCC; /* 赛博朋克绿/蓝 */
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            border: 1px solid #333;
+            background: #111;
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.1);
+        }
+        h1 { font-size: 2.5em; border-bottom: 2px dashed #FF69B4; padding-bottom: 10px; color: #FFF; }
+        .subtitle { font-size: 1.2em; color: #888; margin-bottom: 30px; }
+        h2 { color: #FF69B4; margin-top: 30px; }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 10px; }
+        .highlight { color: #FFF; font-weight: bold; }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            margin-top: 20px;
+            background: #FF69B4;
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+        .btn:hover { background: #FFF; box-shadow: 0 0 15px #FF69B4; }
+        .tech-stack span {
+            display: inline-block;
+            background: #222;
+            border: 1px solid #444;
+            color: #00FFCC;
+            padding: 4px 10px;
+            margin: 5px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Rhythm Runner</h1>
+        <div class="subtitle">Automatic Beatmap Generation Through Multi-Layer Audio Analysis.</div>
+
+        <p>A Muse Dash-inspired 2D rhythm game where obstacles and enemies are automatically generated from arbitrary audio files using deep audio signal processing.</p>
+
+        <h2>🚀 Core Architecture</h2>
+        <p>This project features a fully automated two-stage pipeline:</p>
+        <ul>
+            <li><span class="highlight">Stage 1: Python & Librosa:</span> Extracts 15+ descriptors including FFT/STFT, onset strength, RMS energy, and HPSS to generate JSON beatmaps.</li>
+            <li><span class="highlight">Stage 2: Godot Engine:</span> Ingests JSON charts and runs a dual-lane side-scrolling gameplay with precise distance-based judgment.</li>
+        </ul>
+
+        <h2>👤 My Contribution (Yiming Zhao)</h2>
+        <ul>
+            <li><span class="highlight">Music Selection & UI Design:</span> Designed and implemented the in-game track preview and selection interface.</li>
+            <li><span class="highlight">Musical Trend Enhancement:</span> Enhanced peak-aware adjustments so beatmap density dynamically follows the song's energy contours.</li>
+        </ul>
+
+        <h2>🛠️ Tech Stack</h2>
+        <div class="tech-stack">
+            <span>Python</span>
+            <span>Godot Engine</span>
+            <span>Librosa</span>
+            <span>NumPy</span>
+            <span>JSON</span>
+        </div>
+
+        <div style="margin-top: 40px; border-top: 1px solid #333; padding-top: 20px;">
+            <p>👉 Check out the full source code and analysis report in this repository.</p>
+            <a href="https://github.com/myrazanglin-art/Rhythm-Runner-Godot" class="btn">View Source Code on GitHub</a>
+        </div>
+    </div>
+
+</body>
+</html>
