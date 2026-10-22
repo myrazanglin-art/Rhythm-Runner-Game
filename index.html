@@ -7,18 +7,8 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+SC:wght@300;400;700&display=swap');
 
+        /* 默认：白天模式 */
         :root {
-            --bg-color: #0f0f11;
-            --text-main: #F5F5F7;
-            --text-sub: #86868B;
-            --accent: #FF69B4;
-            --divider: rgba(255, 255, 255, 0.1);
-            --panel: #1C1C1E;
-            --chat-user: #333336;
-            --chat-bot: #1C1C1E;
-        }
-
-        [data-theme="light"] {
             --bg-color: #FBFBFD;
             --text-main: #1D1D1F;
             --text-sub: #515154;
@@ -27,6 +17,26 @@
             --panel: #FFFFFF;
             --chat-user: #E5E5EA;
             --chat-bot: #F2F2F7;
+            
+            /* 白天模式：彩色图片，极低透明度 */
+            --img-filter: grayscale(0%); 
+            --gallery-opacity: 0.08; 
+        }
+
+        /* 夜间模式覆盖 */
+        [data-theme="dark"] {
+            --bg-color: #0f0f11;
+            --text-main: #F5F5F7;
+            --text-sub: #86868B;
+            --accent: #FF69B4;
+            --divider: rgba(255, 255, 255, 0.1);
+            --panel: #1C1C1E;
+            --chat-user: #333336;
+            --chat-bot: #1C1C1E;
+            
+            /* 夜间模式：黑白图片，稍高透明度 */
+            --img-filter: grayscale(100%); 
+            --gallery-opacity: 0.15; 
         }
 
         body {
@@ -49,7 +59,9 @@
             pointer-events: none;
             z-index: -1;
             overflow: hidden;
-            opacity: 0.15;
+            /* 通过变量控制透明度 */
+            opacity: var(--gallery-opacity);
+            transition: opacity 0.4s ease;
             mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
             -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
         }
@@ -71,8 +83,10 @@
         .gallery-column img {
             width: 100%;
             border-radius: 8px;
-            filter: grayscale(100%);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            /* 通过变量控制黑白与彩色 */
+            filter: var(--img-filter);
+            transition: filter 0.4s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         @keyframes scrollUp {
@@ -231,6 +245,7 @@
             z-index: 10;
         }
 
+        /* Chatbot 悬浮按钮 */
         .ai-agent-btn {
             position: fixed;
             bottom: 30px;
@@ -252,6 +267,7 @@
 
         .ai-agent-btn:hover { transform: translateY(-5px); border-color: var(--accent); }
 
+        /* Chatbot 聊天窗口 */
         .chat-window {
             position: fixed;
             bottom: 110px;
@@ -338,7 +354,8 @@
         .chat-send:hover { opacity: 0.8; }
     </style>
 </head>
-<body data-theme="dark">
+<!-- 注意这里：默认去掉了 data-theme="dark"，所以一进去是白天 -->
+<body>
 
     <!-- 左侧：绝对网络路径，指向 godot/assets/ -->
     <div class="bg-gallery left">
@@ -381,6 +398,7 @@
     </div>
 
     <div class="nav">
+        <!-- 默认按钮文案是 DAY 的对立面 -->
         <button class="theme-toggle" onclick="toggleTheme()">🌙 NIGHT</button>
     </div>
 
@@ -432,8 +450,10 @@
         © 2025 Yiming Zhao. Bridging Computer Music & Gameplay.
     </div>
 
+    <!-- Chatbot 悬浮按钮 -->
     <div class="ai-agent-btn" onclick="toggleChat()">🤖</div>
 
+    <!-- Chatbot 聊天窗口 -->
     <div class="chat-window" id="chatWindow">
         <div class="chat-header">
             <div class="chat-status"></div>
@@ -449,15 +469,16 @@
     </div>
 
     <script>
+        // 因为默认没有 data-theme 属性，所以是白天
         function toggleTheme() {
             const body = document.body;
             const btn = document.querySelector('.theme-toggle');
             if (body.getAttribute('data-theme') === 'dark') {
-                body.setAttribute('data-theme', 'light');
-                btn.innerText = '☀️ DAY';
+                body.removeAttribute('data-theme');
+                btn.innerText = '🌙 NIGHT';
             } else {
                 body.setAttribute('data-theme', 'dark');
-                btn.innerText = '🌙 NIGHT';
+                btn.innerText = '☀️ DAY';
             }
         }
 
