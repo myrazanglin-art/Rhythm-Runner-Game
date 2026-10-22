@@ -3,272 +3,360 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rhythm Runner | Cyber Audio Engine</title>
+    <title>Rhythm Runner | Audio-Driven Rhythm Game</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Noto+Sans+SC:wght@400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+SC:wght@300;400;700&display=swap');
 
         :root {
-            --bg: #0a0a0f;
-            --panel: #12121a;
-            --accent-cyan: #00f0ff;
-            --accent-magenta: #ff0055;
-            --text-main: #e0e0e0;
-            --text-sub: #888;
-            --border: rgba(0, 240, 255, 0.2);
-            --glass: rgba(18, 18, 26, 0.7);
+            --bg-color: #0f0f11;
+            --text-main: #F5F5F7;
+            --text-sub: #86868B;
+            --accent: #FF69B4;
+            --divider: rgba(255, 255, 255, 0.1);
+            --panel: #1C1C1E;
+            --chat-user: #333336;
+            --chat-bot: #1C1C1E;
         }
 
         [data-theme="light"] {
-            --bg: #f4f4f9;
-            --panel: #ffffff;
-            --accent-cyan: #0077ff;
-            --accent-magenta: #ff2a7a;
-            --text-main: #1a1a1a;
-            --text-sub: #666;
-            --border: rgba(0, 0, 0, 0.1);
-            --glass: rgba(255, 255, 255, 0.8);
+            --bg-color: #FBFBFD;
+            --text-main: #1D1D1F;
+            --text-sub: #515154;
+            --accent: #FF1493;
+            --divider: rgba(0, 0, 0, 0.1);
+            --panel: #FFFFFF;
+            --chat-user: #E5E5EA;
+            --chat-bot: #F2F2F7;
         }
 
         body {
-            font-family: 'Fira Code', 'Noto Sans SC', monospace;
-            background-color: var(--bg);
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(0, 240, 255, 0.05), transparent 30%),
-                radial-gradient(circle at 90% 80%, rgba(255, 0, 85, 0.05), transparent 30%);
+            font-family: 'Inter', 'Noto Sans SC', sans-serif;
+            background-color: var(--bg-color);
             color: var(--text-main);
-            line-height: 1.7;
+            line-height: 1.8;
             margin: 0;
             padding: 0;
-            transition: background 0.5s, color 0.5s;
+            transition: background-color 0.4s ease, color 0.4s ease;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
-        /* 顶部导航与主题切换 */
-        .top-bar {
+        .nav {
+            padding: 20px 40px;
+            display: flex;
+            justify-content: flex-end;
             position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
+            width: 100%;
+            top: 0;
+            box-sizing: border-box;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
         }
 
-        .theme-btn {
-            background: var(--glass);
-            border: 1px solid var(--border);
+        .theme-toggle {
+            background: transparent;
+            border: 1px solid var(--divider);
             color: var(--text-main);
-            padding: 10px 15px;
-            border-radius: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
             cursor: pointer;
-            font-family: 'Fira Code', monospace;
-            font-weight: bold;
-            backdrop-filter: blur(10px);
+            font-family: inherit;
+            font-size: 0.9em;
             transition: 0.3s;
         }
 
-        .theme-btn:hover {
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 15px var(--border);
-        }
+        .theme-toggle:hover { border-color: var(--accent); }
 
         .hero {
+            height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            padding: 120px 20px 60px;
+            padding: 0 20px;
         }
 
         .hero h1 {
-            font-size: 5em;
-            font-weight: 900;
+            font-size: 5.5em;
+            font-weight: 800;
             margin: 0;
-            letter-spacing: -2px;
-            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
+            letter-spacing: -0.04em;
+            background: linear-gradient(135deg, var(--text-main), var(--text-sub));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
+        }
+
+        .hero p {
+            font-size: 1.4em;
+            color: var(--text-sub);
+            font-weight: 300;
+            margin-top: 15px;
+            max-width: 600px;
         }
 
         .container {
-            max-width: 850px;
+            max-width: 800px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 40px 20px 100px;
         }
 
         .section {
-            margin-bottom: 60px;
-            padding: 30px;
-            background: var(--glass);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
+            padding: 40px 0;
+            border-top: 1px solid var(--divider);
         }
 
         h2 {
-            color: var(--accent-cyan);
-            font-size: 1.4em;
-            border-bottom: 1px dashed var(--border);
-            padding-bottom: 10px;
-            margin-top: 0;
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-main);
         }
 
-        .en { font-size: 1.1em; color: var(--text-main); margin-bottom: 10px; font-weight: bold;}
-        .zh { font-size: 0.95em; color: var(--text-sub); }
-
-        ul { padding-left: 20px; list-style-type: square; }
-        li { margin-bottom: 15px; }
-
-        .highlight { color: var(--accent-magenta); font-weight: bold; }
-
-        .code-block {
-            background: var(--panel);
-            border-left: 3px solid var(--accent-cyan);
-            padding: 15px;
-            margin: 20px 0;
-            font-size: 0.9em;
-            color: var(--accent-cyan);
-            overflow-x: auto;
-        }
-
-        .btn-container { text-align: center; margin: 60px 0; }
-
-        .download-btn {
-            display: inline-block;
-            padding: 15px 40px;
+        .en-text {
             font-size: 1.1em;
-            font-weight: bold;
-            color: var(--bg);
-            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
+            color: var(--text-main);
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+
+        .zh-text {
+            font-size: 0.95em;
+            color: var(--text-sub);
+            font-weight: 300;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .feature-list li {
+            margin-bottom: 25px;
+        }
+
+        .feature-list b {
+            color: var(--text-main);
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .accent-line {
+            width: 40px;
+            height: 3px;
+            background: var(--accent);
+            margin-bottom: 20px;
+            border-radius: 2px;
+        }
+
+        .action-area {
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--text-main);
+            color: var(--bg-color);
+            padding: 16px 40px;
+            border-radius: 30px;
+            font-size: 1.1em;
+            font-weight: 600;
             text-decoration: none;
-            border-radius: 4px;
             transition: 0.3s;
         }
 
-        .download-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+        .btn:hover {
+            background-color: var(--accent);
+            color: #FFF;
+            transform: scale(1.02);
         }
 
         .footer {
             text-align: center;
             padding: 40px;
             color: var(--text-sub);
-            font-size: 0.8em;
-            border-top: 1px solid var(--border);
+            font-size: 0.85em;
+            border-top: 1px solid var(--divider);
         }
 
-        /* AI Agent 悬浮窗 */
-        .ai-agent {
+        /* Chatbot 悬浮按钮 */
+        .ai-agent-btn {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            z-index: 1000;
-            display: flex;
-            align-items: flex-end;
-            gap: 15px;
-        }
-
-        .agent-avatar {
-            width: 60px;
-            height: 60px;
+            width: 65px;
+            height: 65px;
             background: var(--panel);
-            border: 2px solid var(--accent-magenta);
+            border: 1px solid var(--divider);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 30px;
+            font-size: 28px;
             cursor: pointer;
-            box-shadow: 0 0 20px rgba(255, 0, 85, 0.4);
-            animation: float 3s ease-in-out infinite;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: 0.3s;
+            z-index: 1000;
         }
 
-        @keyframes float {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0); }
+        .ai-agent-btn:hover { transform: translateY(-5px); border-color: var(--accent); }
+
+        /* Chatbot 聊天窗口 */
+        .chat-window {
+            position: fixed;
+            bottom: 110px;
+            right: 30px;
+            width: 360px;
+            height: 500px;
+            background: var(--panel);
+            border: 1px solid var(--divider);
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+            overflow: hidden;
+            transition: 0.3s;
         }
 
-        .agent-dialog {
-            background: var(--glass);
-            border: 1px solid var(--accent-magenta);
-            border-radius: 16px;
-            border-bottom-right-radius: 4px;
+        .chat-window.active { display: flex; animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .chat-header {
+            padding: 15px 20px;
+            background: var(--panel);
+            border-bottom: 1px solid var(--divider);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chat-status { width: 8px; height: 8px; background: #00FF00; border-radius: 50%; box-shadow: 0 0 10px #00FF00; }
+
+        .chat-body {
+            flex: 1;
             padding: 20px;
-            width: 300px;
-            backdrop-filter: blur(15px);
-            display: none; /* 默认隐藏，点击后弹出 */
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
-        .agent-dialog.active { display: block; animation: popIn 0.3s ease; }
-        @keyframes popIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-
-        .agent-name {
-            color: var(--accent-magenta);
-            font-weight: bold;
-            font-size: 0.9em;
-            margin-bottom: 10px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 5px;
-        }
-
-        .agent-text {
+        .msg {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 18px;
             font-size: 0.95em;
-            color: var(--text-main);
             line-height: 1.5;
         }
 
-        .agent-text span { color: var(--accent-cyan); font-weight: bold; }
+        .msg-bot { background: var(--chat-bot); align-self: flex-start; border-bottom-left-radius: 4px; }
+        .msg-user { background: var(--accent); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+
+        .chat-input-area {
+            padding: 15px;
+            border-top: 1px solid var(--divider);
+            display: flex;
+            gap: 10px;
+            background: var(--panel);
+        }
+
+        .chat-input {
+            flex: 1;
+            background: var(--bg-color);
+            border: 1px solid var(--divider);
+            color: var(--text-main);
+            padding: 10px 15px;
+            border-radius: 20px;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .chat-send {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 0 15px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .chat-send:hover { opacity: 0.8; }
     </style>
 </head>
 <body data-theme="dark">
 
-    <div class="top-bar">
-        <button class="theme-btn" onclick="toggleTheme()">🌙 NIGHT MODE</button>
+    <div class="nav">
+        <button class="theme-toggle" onclick="toggleTheme()">🌙 NIGHT</button>
     </div>
 
     <div class="hero">
         <h1>Rhythm Runner</h1>
+        <p>Multi-Layer Audio Analysis. Automated Beatmap Generation.</p>
     </div>
 
     <div class="container">
         
         <div class="section">
-            <h2>// SYSTEM_OVERVIEW</h2>
-            <p class="en">I engineered a fully automated pipeline that converts arbitrary audio files into playable rhythm game levels. By abandoning manual charting, I built a system that dynamically generates Easy, Normal, and Hard charts for complex genres like experimental electronic, post-rock, and indie music.</p>
-            <p class="zh">我构建了一个全自动的流水线，能够将任意音频转化为可玩的音游关卡。抛弃了人工打谱，我让系统针对实验电子、后摇等复杂流派，实时生成动态难度的谱面。</p>
+            <div class="accent-line"></div>
+            <h2>Project Overview</h2>
+            <p class="en-text">A 2D rhythm game that eliminates manual charting. A fully automated pipeline driven by multi-layer audio analysis translates arbitrary audio files into playable levels.</p>
+            <p class="zh-text">一款抛弃了人工打谱的 2D 音乐节奏游戏。由多层音频分析驱动的全自动流水线，将任意音频转化为可玩的游戏关卡。</p>
+            <p class="en-text" style="margin-top: 20px;">Tailored for complex genres including experimental electronic, post-rock, and indie music, the system generates dynamic Easy, Normal, and Hard charts in real time.</p>
+            <p class="zh-text">针对实验电子、后摇和独立音乐等复杂流派，系统能够实时生成动态的 Easy、Normal 和 Hard 谱面。</p>
         </div>
 
         <div class="section">
-            <h2>// COMPUTER_MUSIC_&_DSP</h2>
-            <p class="en">Instead of relying on basic BPM tracking, I extract 15+ complementary descriptors to deeply analyze the audio structure.</p>
-            <p class="zh">我并没有依赖单调的 BPM 追踪，而是提取了 15 种以上的多维描述符来深度剖析音频结构：</p>
+            <div class="accent-line"></div>
+            <h2>Computer Music & DSP</h2>
+            <p class="en-text">Rather than relying on monotonous BPM tracking, 15+ complementary descriptors are extracted to decode the soul of the track:</p>
+            <p class="zh-text">抛弃了单调的 BPM 节拍追踪，通过提取 15 种以上的互补描述符来解构音轨的灵魂：</p>
             
-            <div class="code-block">
-> Extracting: spectral_centroid, spectral_rolloff, spectral_flatness, ZCR...<br>
-> Running HPSS (Harmonic-Percussive Source Separation)...<br>
-> Segmenting via CQT Chroma and Recurrence Matrix...
-            </div>
-
-            <ul>
-                <li><span class="highlight">Spectral Flux & Dynamics:</span> I mapped RMS energy to dynamically scale obstacle density, ensuring quiet sections don't get flooded with notes, while drops go crazy.</li>
-                <li><span class="highlight">HPSS & Melodic Contours:</span> Using HPSS and piptrack, I isolated harmonic melodic gestures to generate sustained hold notes that follow the music's phrasing.</li>
-                <li><span class="highlight">Lane Allocation:</span> Notes are assigned to dual lanes based on frequency-band dominance (high-band to upper lane, low-band to lower).</li>
+            <ul class="feature-list" style="margin-top: 30px;">
+                <li>
+                    <b>Spectral & Temporal Analysis</b>
+                    Extracts onset strengths, spectral flux, and zero-crossing rate to capture density and chaotic energy.
+                </li>
+                <li>
+                    <b>Energy & Dynamics</b>
+                    Maps RMS energy to dynamically scale obstacle density, ensuring quiet ambient sections are sparse while drops are intense.
+                </li>
+                <li>
+                    <b>HPSS & Melodic Contours</b>
+                    Utilizes Harmonic-Percussive Source Separation and piptrack to detect sustained holds and melodic gestures.
+                </li>
+                <li>
+                    <b>Structural Segmentation</b>
+                    Uses CQT chroma and recurrence segmentation to identify musical sections, driving dynamic difficulty adjustments.
+                </li>
             </ul>
         </div>
 
         <div class="section">
-            <h2>// ENGINE_ARCHITECTURE</h2>
-            <ul>
-                <li><span class="highlight">Stage 1: Python Offline Analysis</span><br>
-                    <span class="en">I used librosa and numpy to serialize multi-dimensional features into a JSON beatmap, completely bypassing human error.</span>
+            <div class="accent-line"></div>
+            <h2>Engine Architecture</h2>
+            <ul class="feature-list">
+                <li>
+                    <b>Stage 1: Python Offline Analysis</b>
+                    Extracts multi-dimensional features and serializes them into a JSON beatmap, assigning notes to dual lanes based on frequency band dominance.
                 </li>
-                <li><span class="highlight">Stage 2: Godot Real-time Execution</span><br>
-                    <span class="en">I implemented a distance-based judgment system in GDScript, spawning entities perfectly in sync with the audio timeline.</span>
+                <li>
+                    <b>Stage 2: Godot Real-time Execution</b>
+                    Ingests JSON data, spawning entities early to ensure perfect travel time. Features a distance-based judgment system for precise rhythmic feedback.
                 </li>
             </ul>
         </div>
 
-        <div class="btn-container">
-            <a href="https://github.com/myrazanglin-art/Rhythm-Runner-Game" class="download-btn">
-                [ DOWNLOAD_SOURCE_CODE ]
-            </a>
+        <div class="action-area">
+            <a href="https://github.com/myrazanglin-art/Rhythm-Runner-Game" class="btn">Download Source Code</a>
         </div>
 
     </div>
@@ -277,37 +365,91 @@
         © 2025 Yiming Zhao. Bridging Computer Music & Gameplay.
     </div>
 
-    <!-- AI Agent 组件 -->
-    <div class="ai-agent">
-        <div class="agent-dialog" id="agentDialog">
-            <div class="agent-name">🎧 音游向导 · 绝赞运转中</div>
-            <div class="agent-text">
-                呜哇，终于有人点开我了！(๑•̀ㅂ•́)و✧<br><br>
-                你知道吗？为了不做那种无聊的“动次打次”谱面，Master 可是用了 <span>HPSS算法</span> 把鼓点和高音旋律全部分开了哦！<br><br>
-                如果你按下 <span>DOWNLOAD</span>，就能看到我是怎么用 <span>Piptrack</span> 提取旋律，然后自动生成 Hold 音符的！快去听听看吧！
-            </div>
+    <!-- Chatbot 悬浮按钮 -->
+    <div class="ai-agent-btn" onclick="toggleChat()">🤖</div>
+
+    <!-- Chatbot 聊天窗口 -->
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <div class="chat-status"></div>
+            Rhythm Guide AI
         </div>
-        <div class="agent-avatar" onclick="toggleAgent()">🤖</div>
+        <div class="chat-body" id="chatBody">
+            <div class="msg msg-bot">你好呀！我是 Rhythm Runner 的音频向导。你可以问我关于这个项目的任何技术细节，比如“你是怎么处理实验音乐的？”或者“什么是 HPSS？” (๑•̀ㅂ•́)و✧</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Type a message..." onkeypress="handleKeyPress(event)">
+            <button class="chat-send" onclick="sendMessage()">Send</button>
+        </div>
     </div>
 
     <script>
         // 切换日夜模式
         function toggleTheme() {
             const body = document.body;
-            const btn = document.querySelector('.theme-btn');
+            const btn = document.querySelector('.theme-toggle');
             if (body.getAttribute('data-theme') === 'dark') {
                 body.setAttribute('data-theme', 'light');
-                btn.innerText = '☀️ DAY MODE';
+                btn.innerText = '☀️ DAY';
             } else {
                 body.setAttribute('data-theme', 'dark');
-                btn.innerText = '🌙 NIGHT MODE';
+                btn.innerText = '🌙 NIGHT';
             }
         }
 
-        // AI Agent 弹窗
-        function toggleAgent() {
-            const dialog = document.getElementById('agentDialog');
-            dialog.classList.toggle('active');
+        // 开关聊天窗口
+        function toggleChat() {
+            const chat = document.getElementById('chatWindow');
+            chat.classList.toggle('active');
+        }
+
+        // 处理回车键发送
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
+
+        // 发送消息与本地 AI 知识库逻辑
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim().toLowerCase();
+            if (!text) return;
+
+            const chatBody = document.getElementById('chatBody');
+
+            // 添加用户消息
+            const userMsg = document.createElement('div');
+            userMsg.className = 'msg msg-user';
+            userMsg.innerText = input.value;
+            chatBody.appendChild(userMsg);
+            input.value = '';
+
+            // 滚动到底部
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            // 模拟 AI 思考延迟
+            setTimeout(() => {
+                const botMsg = document.createElement('div');
+                botMsg.className = 'msg msg-bot';
+                
+                let reply = "诶嘿，这个问题有点深奥呢... (・_・;) 不如问问关于 HPSS、特征提取 (Features) 或者动态难度 (Dynamic Difficulty) 的事情吧！";
+                
+                // 基于论文知识库的简单匹配逻辑
+                if (text.includes('hpss') || text.includes('harmonic') || text.includes('percussive') || text.includes('谐波')) {
+                    reply = "HPSS (Harmonic-Percussive Source Separation) 是核心哦！它能将音频精准分离为谐波（旋律/人声）和打击乐（鼓点）。这样系统就能把旋律映射成长按 Hold 音符，把鼓点变成敌人，超厉害的！✨";
+                } else if (text.includes('feature') || text.includes('特征') || text.includes('分析') || text.includes('实验音乐')) {
+                    reply = "为了搞定复杂的实验电子和后摇，提取了 15+ 种特征！像频谱质心 (Centroid)、通量 (Flux) 和过零率 (ZCR) 都被用上了。这能完美捕捉音轨的噪音感和能量密度，才不会像普通音游那样单调呢！🎛️";
+                } else if (text.includes('difficulty') || text.includes('难度') || text.includes('动态')) {
+                    reply = "动态难度可是灵魂！系统通过 RMS 能量和动态范围来判断副歌和安静段落。安静的地方音符少，到了 Drop 高潮部分，障碍物密度会跟着能量一起爆发的！🤯";
+                } else if (text.includes('godot') || text.includes('引擎')) {
+                    reply = "游戏在 Godot 引擎里跑哦！Python 算好 JSON 谱面后，Godot 会提前生成实体。基于距离的判定系统（Distance-based judgment）能保证打击感绝对精准！🎮";
+                } else if (text.includes('hello') || text.includes('你好') || text.includes('hi')) {
+                    reply = "欢迎来到 Rhythm Runner！这里是脱胎于硬核音频算法的音游世界，准备好体验真正的节奏了吗？(๑•̀ㅂ•́)و✧";
+                }
+
+                botMsg.innerText = reply;
+                chatBody.appendChild(botMsg);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }, 600);
         }
     </script>
 </body>
