@@ -18,9 +18,10 @@
             --chat-user: #E5E5EA;
             --chat-bot: #F2F2F7;
             
-            /* 白天模式：彩色图片，极低透明度 */
+            /* 白天模式：彩色图片，透明度调高 */
             --img-filter: grayscale(0%); 
-            --gallery-opacity: 0.08; 
+            --gallery-opacity: 0.25; /* 从 0.08 提高到了 0.25 */
+            --text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
         }
 
         /* 夜间模式覆盖 */
@@ -34,9 +35,10 @@
             --chat-user: #333336;
             --chat-bot: #1C1C1E;
             
-            /* 夜间模式：黑白图片，稍高透明度 */
+            /* 夜间模式：黑白图片 */
             --img-filter: grayscale(100%); 
             --gallery-opacity: 0.15; 
+            --text-shadow: none;
         }
 
         body {
@@ -59,7 +61,6 @@
             pointer-events: none;
             z-index: -1;
             overflow: hidden;
-            /* 通过变量控制透明度 */
             opacity: var(--gallery-opacity);
             transition: opacity 0.4s ease;
             mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
@@ -83,7 +84,6 @@
         .gallery-column img {
             width: 100%;
             border-radius: 8px;
-            /* 通过变量控制黑白与彩色 */
             filter: var(--img-filter);
             transition: filter 0.4s ease;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -97,6 +97,12 @@
         @keyframes scrollDown {
             0% { transform: translateY(-50%); }
             100% { transform: translateY(0); }
+        }
+
+        /* 为了在色彩鲜艳的背景下保证文字可读性，给文本加上抗干扰光影 */
+        .hero h1, .hero p, .en-text, .zh-text, h2, .feature-list li {
+            text-shadow: var(--text-shadow);
+            transition: text-shadow 0.4s ease;
         }
 
         .nav {
@@ -144,6 +150,12 @@
             background: linear-gradient(135deg, var(--text-main), var(--text-sub));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            /* 渐变文字的特殊光影处理 */
+            filter: drop-shadow(0px 0px 10px rgba(255,255,255,0.8)); 
+        }
+
+        [data-theme="dark"] .hero h1 {
+            filter: none;
         }
 
         .hero p {
@@ -316,6 +328,7 @@
             border-radius: 18px;
             font-size: 0.95em;
             line-height: 1.5;
+            text-shadow: none; /* 聊天框内不需要光影 */
         }
 
         .msg-bot { background: var(--chat-bot); align-self: flex-start; border-bottom-left-radius: 4px; }
@@ -354,10 +367,9 @@
         .chat-send:hover { opacity: 0.8; }
     </style>
 </head>
-<!-- 注意这里：默认去掉了 data-theme="dark"，所以一进去是白天 -->
 <body>
 
-    <!-- 左侧：绝对网络路径，指向 godot/assets/ -->
+    <!-- 左侧 -->
     <div class="bg-gallery left">
         <div class="gallery-column">
             <img src="https://raw.githubusercontent.com/myrazanglin-art/Rhythm-Runner-Game/main/godot/assets/1.jpg" alt="album">
@@ -378,7 +390,7 @@
         </div>
     </div>
 
-    <!-- 右侧：绝对网络路径，指向 godot/assets/ -->
+    <!-- 右侧 -->
     <div class="bg-gallery right">
         <div class="gallery-column">
             <img src="https://raw.githubusercontent.com/myrazanglin-art/Rhythm-Runner-Game/main/godot/assets/8.jpg" alt="album">
@@ -398,7 +410,6 @@
     </div>
 
     <div class="nav">
-        <!-- 默认按钮文案是 DAY 的对立面 -->
         <button class="theme-toggle" onclick="toggleTheme()">🌙 NIGHT</button>
     </div>
 
@@ -450,10 +461,8 @@
         © 2025 Yiming Zhao. Bridging Computer Music & Gameplay.
     </div>
 
-    <!-- Chatbot 悬浮按钮 -->
     <div class="ai-agent-btn" onclick="toggleChat()">🤖</div>
 
-    <!-- Chatbot 聊天窗口 -->
     <div class="chat-window" id="chatWindow">
         <div class="chat-header">
             <div class="chat-status"></div>
@@ -469,7 +478,6 @@
     </div>
 
     <script>
-        // 因为默认没有 data-theme 属性，所以是白天
         function toggleTheme() {
             const body = document.body;
             const btn = document.querySelector('.theme-toggle');
