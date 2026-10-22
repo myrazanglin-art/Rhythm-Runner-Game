@@ -3,31 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rhythm Runner | Audio-Driven Game</title>
+    <title>Rhythm Runner | Cyber Audio Engine</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Noto+Sans+SC:wght@400;700;900&display=swap');
 
         :root {
-            --bg: #0d0d12;
-            --accent-pink: #ff2a7a;
-            --accent-blue: #00c3ff;
-            --text: #f0f0f0;
-            --text-sub: #a0a0a0;
-            --border: rgba(255, 255, 255, 0.1);
+            --bg: #0a0a0f;
+            --panel: #12121a;
+            --accent-cyan: #00f0ff;
+            --accent-magenta: #ff0055;
+            --text-main: #e0e0e0;
+            --text-sub: #888;
+            --border: rgba(0, 240, 255, 0.2);
+            --glass: rgba(18, 18, 26, 0.7);
+        }
+
+        [data-theme="light"] {
+            --bg: #f4f4f9;
+            --panel: #ffffff;
+            --accent-cyan: #0077ff;
+            --accent-magenta: #ff2a7a;
+            --text-main: #1a1a1a;
+            --text-sub: #666;
+            --border: rgba(0, 0, 0, 0.1);
+            --glass: rgba(255, 255, 255, 0.8);
         }
 
         body {
-            font-family: 'Noto Sans SC', sans-serif;
+            font-family: 'Fira Code', 'Noto Sans SC', monospace;
             background-color: var(--bg);
-            /* 增加了极具质感的极简网格背景 */
             background-image: 
-                radial-gradient(circle at 15% 50%, rgba(255, 42, 122, 0.08), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(0, 195, 255, 0.08), transparent 25%);
-            color: var(--text);
-            line-height: 1.8;
+                radial-gradient(circle at 10% 20%, rgba(0, 240, 255, 0.05), transparent 30%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 85, 0.05), transparent 30%);
+            color: var(--text-main);
+            line-height: 1.7;
             margin: 0;
             padding: 0;
-            overflow-x: hidden;
+            transition: background 0.5s, color 0.5s;
+        }
+
+        /* 顶部导航与主题切换 */
+        .top-bar {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .theme-btn {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Fira Code', monospace;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+            transition: 0.3s;
+        }
+
+        .theme-btn:hover {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 15px var(--border);
         }
 
         .hero {
@@ -36,15 +74,14 @@
         }
 
         .hero h1 {
-            font-size: 5.5em;
+            font-size: 5em;
             font-weight: 900;
             margin: 0;
             letter-spacing: -2px;
-            /* 保持完美渐变 */
-            background: linear-gradient(90deg, var(--accent-pink), var(--accent-blue));
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 10px 40px rgba(255, 42, 122, 0.2);
+            text-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
         }
 
         .container {
@@ -53,108 +90,138 @@
             padding: 20px;
         }
 
-        /* 彻底取消大白框，改用极简的分割线排版 */
         .section {
-            margin-bottom: 80px;
-            padding-bottom: 40px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .section:last-child {
-            border-bottom: none;
+            margin-bottom: 60px;
+            padding: 30px;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
         }
 
         h2 {
-            color: var(--accent-blue);
-            font-size: 1.5em;
-            font-family: 'Fira Code', monospace;
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            color: var(--accent-cyan);
+            font-size: 1.4em;
+            border-bottom: 1px dashed var(--border);
+            padding-bottom: 10px;
+            margin-top: 0;
         }
 
-        h2::before {
-            content: ">>";
-            color: var(--accent-pink);
-            font-weight: bold;
-        }
+        .en { font-size: 1.1em; color: var(--text-main); margin-bottom: 10px; font-weight: bold;}
+        .zh { font-size: 0.95em; color: var(--text-sub); }
 
-        /* 英文优先排版 */
-        .en {
-            font-size: 1.15em;
-            color: #e0e0e0;
-            margin-bottom: 10px;
-            font-weight: 500;
-        }
+        ul { padding-left: 20px; list-style-type: square; }
+        li { margin-bottom: 15px; }
 
-        .zh {
-            font-size: 0.95em;
-            color: var(--text-sub);
-            font-family: 'Noto Sans SC', sans-serif;
-        }
-
-        ul {
-            padding-left: 20px;
-            list-style-type: square;
-        }
-
-        li {
-            margin-bottom: 15px;
-            color: #ccc;
-        }
-
-        .highlight {
-            color: var(--accent-pink);
-            font-family: 'Fira Code', monospace;
-            font-weight: bold;
-        }
+        .highlight { color: var(--accent-magenta); font-weight: bold; }
 
         .code-block {
-            background: rgba(255, 255, 255, 0.03);
-            border-left: 3px solid var(--accent-blue);
-            padding: 15px 20px;
+            background: var(--panel);
+            border-left: 3px solid var(--accent-cyan);
+            padding: 15px;
             margin: 20px 0;
-            font-family: 'Fira Code', monospace;
             font-size: 0.9em;
-            color: #00c3ff;
+            color: var(--accent-cyan);
+            overflow-x: auto;
         }
 
-        .btn-container {
-            text-align: center;
-            margin: 80px 0 60px;
-        }
+        .btn-container { text-align: center; margin: 60px 0; }
 
         .download-btn {
             display: inline-block;
-            padding: 18px 45px;
+            padding: 15px 40px;
             font-size: 1.1em;
             font-weight: bold;
-            font-family: 'Fira Code', monospace;
-            color: #fff;
-            background: linear-gradient(90deg, var(--accent-pink), var(--accent-blue));
+            color: var(--bg);
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
             text-decoration: none;
-            border-radius: 8px; /* 换成方形圆角更硬核 */
+            border-radius: 4px;
             transition: 0.3s;
-            box-shadow: 0 4px 15px rgba(255, 42, 122, 0.3);
         }
 
         .download-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 195, 255, 0.4);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
         }
 
         .footer {
             text-align: center;
             padding: 40px;
-            color: #555;
+            color: var(--text-sub);
             font-size: 0.8em;
-            font-family: 'Fira Code', monospace;
             border-top: 1px solid var(--border);
         }
+
+        /* AI Agent 悬浮窗 */
+        .ai-agent {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            display: flex;
+            align-items: flex-end;
+            gap: 15px;
+        }
+
+        .agent-avatar {
+            width: 60px;
+            height: 60px;
+            background: var(--panel);
+            border: 2px solid var(--accent-magenta);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.4);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+
+        .agent-dialog {
+            background: var(--glass);
+            border: 1px solid var(--accent-magenta);
+            border-radius: 16px;
+            border-bottom-right-radius: 4px;
+            padding: 20px;
+            width: 300px;
+            backdrop-filter: blur(15px);
+            display: none; /* 默认隐藏，点击后弹出 */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .agent-dialog.active { display: block; animation: popIn 0.3s ease; }
+        @keyframes popIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
+        .agent-name {
+            color: var(--accent-magenta);
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 5px;
+        }
+
+        .agent-text {
+            font-size: 0.95em;
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        .agent-text span { color: var(--accent-cyan); font-weight: bold; }
     </style>
 </head>
-<body>
+<body data-theme="dark">
+
+    <div class="top-bar">
+        <button class="theme-btn" onclick="toggleTheme()">🌙 NIGHT MODE</button>
+    </div>
 
     <div class="hero">
         <h1>Rhythm Runner</h1>
@@ -163,53 +230,44 @@
     <div class="container">
         
         <div class="section">
-            <h2>PROJECT_OVERVIEW</h2>
-            <p class="en">Rhythm Runner is a 2D rhythm game that abandons manual charting. It features a fully automated pipeline driven by multi-layer audio analysis, translating arbitrary audio files into playable levels.</p>
-            <p class="zh">Rhythm Runner 是一款抛弃了人工打谱的 2D 音乐节奏游戏。它由多层音频分析驱动，全自动地将任意音频转化为可玩的游戏关卡。</p>
-            <p class="en" style="margin-top: 20px;">Built for complex genres like experimental electronic, post-rock, and indie music, the system generates dynamic Easy, Normal, and Hard charts in real time.</p>
-            <p class="zh">针对实验电子、后摇和独立音乐等复杂流派，系统能够实时生成动态的 Easy、Normal 和 Hard 谱面。</p>
+            <h2>// SYSTEM_OVERVIEW</h2>
+            <p class="en">I engineered a fully automated pipeline that converts arbitrary audio files into playable rhythm game levels. By abandoning manual charting, I built a system that dynamically generates Easy, Normal, and Hard charts for complex genres like experimental electronic, post-rock, and indie music.</p>
+            <p class="zh">我构建了一个全自动的流水线，能够将任意音频转化为可玩的音游关卡。抛弃了人工打谱，我让系统针对实验电子、后摇等复杂流派，实时生成动态难度的谱面。</p>
         </div>
 
         <div class="section">
-            <h2>COMPUTER_MUSIC_&_DSP</h2>
-            <p class="en">Instead of relying on monotonous BPM tracking, we extract 15+ complementary descriptors to understand the soul of the track.</p>
-            <p class="zh">我们没有依赖单调的 BPM 节拍追踪，而是提取了 15 种以上的互补描述符来理解音轨的灵魂：</p>
+            <h2>// COMPUTER_MUSIC_&_DSP</h2>
+            <p class="en">Instead of relying on basic BPM tracking, I extract 15+ complementary descriptors to deeply analyze the audio structure.</p>
+            <p class="zh">我并没有依赖单调的 BPM 追踪，而是提取了 15 种以上的多维描述符来深度剖析音频结构：</p>
             
             <div class="code-block">
-                librosa.feature.spectral_centroid()<br>
-                librosa.feature.spectral_rolloff()<br>
-                librosa.feature.spectral_flatness()<br>
-                librosa.feature.zero_crossing_rate()
+> Extracting: spectral_centroid, spectral_rolloff, spectral_flatness, ZCR...<br>
+> Running HPSS (Harmonic-Percussive Source Separation)...<br>
+> Segmenting via CQT Chroma and Recurrence Matrix...
             </div>
 
             <ul>
-                <li><span class="highlight">Spectral & Temporal:</span> Extracts onset strengths, spectral flux, and zero-crossing rate to capture the density and chaotic energy of the audio.</li>
-                <li><span class="highlight">Energy & Dynamics:</span> Maps RMS energy and dynamic range to dynamically scale the density of obstacles and enemies in sections like choruses or ambient breakdowns.</li>
-                <li><span class="highlight">HPSS & Melodic Contours:</span> Utilizes Harmonic-Percussive Source Separation (HPSS) and piptrack to detect sustained holds and melodic gestures, mapping them into specific note types.</li>
-                <li><span class="highlight">Structural Segmentation:</span> Uses CQT chroma and recurrence segmentation to identify musical sections, driving the dynamic difficulty adjustments.</li>
+                <li><span class="highlight">Spectral Flux & Dynamics:</span> I mapped RMS energy to dynamically scale obstacle density, ensuring quiet sections don't get flooded with notes, while drops go crazy.</li>
+                <li><span class="highlight">HPSS & Melodic Contours:</span> Using HPSS and piptrack, I isolated harmonic melodic gestures to generate sustained hold notes that follow the music's phrasing.</li>
+                <li><span class="highlight">Lane Allocation:</span> Notes are assigned to dual lanes based on frequency-band dominance (high-band to upper lane, low-band to lower).</li>
             </ul>
         </div>
 
         <div class="section">
-            <h2>ENGINE_ARCHITECTURE</h2>
+            <h2>// ENGINE_ARCHITECTURE</h2>
             <ul>
                 <li><span class="highlight">Stage 1: Python Offline Analysis</span><br>
-                    <span class="en">Extracts multi-dimensional features and serializes them into a JSON beatmap, assigning notes to dual lanes based on frequency band dominance.</span>
+                    <span class="en">I used librosa and numpy to serialize multi-dimensional features into a JSON beatmap, completely bypassing human error.</span>
                 </li>
                 <li><span class="highlight">Stage 2: Godot Real-time Execution</span><br>
-                    <span class="en">Ingests the JSON data, spawning entities early to ensure perfect travel time. Features a distance-based judgment system that scales with difficulty for precise rhythmic feedback.</span>
+                    <span class="en">I implemented a distance-based judgment system in GDScript, spawning entities perfectly in sync with the audio timeline.</span>
                 </li>
             </ul>
-        </div>
-
-        <div class="section">
-            <h2>TECH_STACK</h2>
-            <p class="en">Python | Librosa | NumPy | Godot Engine | GDScript | JSON Serialization</p>
         </div>
 
         <div class="btn-container">
             <a href="https://github.com/myrazanglin-art/Rhythm-Runner-Game" class="download-btn">
-                [ View Source Code & Download ]
+                [ DOWNLOAD_SOURCE_CODE ]
             </a>
         </div>
 
@@ -219,5 +277,38 @@
         © 2025 Yiming Zhao. Bridging Computer Music & Gameplay.
     </div>
 
+    <!-- AI Agent 组件 -->
+    <div class="ai-agent">
+        <div class="agent-dialog" id="agentDialog">
+            <div class="agent-name">🎧 音游向导 · 绝赞运转中</div>
+            <div class="agent-text">
+                呜哇，终于有人点开我了！(๑•̀ㅂ•́)و✧<br><br>
+                你知道吗？为了不做那种无聊的“动次打次”谱面，Master 可是用了 <span>HPSS算法</span> 把鼓点和高音旋律全部分开了哦！<br><br>
+                如果你按下 <span>DOWNLOAD</span>，就能看到我是怎么用 <span>Piptrack</span> 提取旋律，然后自动生成 Hold 音符的！快去听听看吧！
+            </div>
+        </div>
+        <div class="agent-avatar" onclick="toggleAgent()">🤖</div>
+    </div>
+
+    <script>
+        // 切换日夜模式
+        function toggleTheme() {
+            const body = document.body;
+            const btn = document.querySelector('.theme-btn');
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.setAttribute('data-theme', 'light');
+                btn.innerText = '☀️ DAY MODE';
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                btn.innerText = '🌙 NIGHT MODE';
+            }
+        }
+
+        // AI Agent 弹窗
+        function toggleAgent() {
+            const dialog = document.getElementById('agentDialog');
+            dialog.classList.toggle('active');
+        }
+    </script>
 </body>
 </html>
