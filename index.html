@@ -1,90 +1,238 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rhythm Runner | Audio-Driven Game</title>
+    <title>Rhythm Runner | 实验音乐驱动的音游</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Noto+Sans+SC:wght@400;700;900&display=swap');
+
+        :root {
+            --bg-color: #0d0d12;
+            --primary-pink: #ff5e9c;
+            --cyber-blue: #00f0ff;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 94, 156, 0.3);
+            --text-main: #f0f0f0;
+            --text-sub: #a0a0a0;
+        }
+
         body {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: #0A0A0A;
-            color: #00FFCC; /* 赛博朋克绿/蓝 */
-            line-height: 1.6;
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: var(--bg-color);
+            /* 添加微妙的网格与发光背景，致敬音游 */
+            background-image: 
+                linear-gradient(rgba(255, 94, 156, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 94, 156, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            color: var(--text-main);
+            line-height: 1.8;
             margin: 0;
             padding: 0;
+            overflow-x: hidden;
         }
+
+        .hero {
+            text-align: center;
+            padding: 80px 20px 40px;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 4em;
+            font-weight: 900;
+            margin: 0;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, var(--primary-pink), var(--cyber-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 94, 156, 0.3);
+        }
+
+        .hero .subtitle {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.2em;
+            color: var(--cyber-blue);
+            margin-top: 10px;
+            letter-spacing: 1px;
+        }
+
         .container {
-            max-width: 800px;
-            margin: 40px auto;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 毛玻璃卡片设计 */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
             padding: 30px;
-            border: 1px solid #333;
-            background: #111;
-            box-shadow: 0 0 20px rgba(0, 255, 204, 0.1);
+            margin-bottom: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        h1 { font-size: 2.5em; border-bottom: 2px dashed #FF69B4; padding-bottom: 10px; color: #FFF; }
-        .subtitle { font-size: 1.2em; color: #888; margin-bottom: 30px; }
-        h2 { color: #FF69B4; margin-top: 30px; }
-        ul { padding-left: 20px; }
-        li { margin-bottom: 10px; }
-        .highlight { color: #FFF; font-weight: bold; }
-        .btn {
-            display: inline-block;
-            padding: 12px 24px;
-            margin-top: 20px;
-            background: #FF69B4;
-            color: #000;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 4px;
-            transition: 0.3s;
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 94, 156, 0.15);
         }
-        .btn:hover { background: #FFF; box-shadow: 0 0 15px #FF69B4; }
-        .tech-stack span {
-            display: inline-block;
-            background: #222;
-            border: 1px solid #444;
-            color: #00FFCC;
-            padding: 4px 10px;
-            margin: 5px;
-            border-radius: 4px;
+
+        h2 {
+            color: var(--primary-pink);
+            font-size: 1.5em;
+            border-bottom: 2px dashed rgba(255, 94, 156, 0.5);
+            padding-bottom: 10px;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .en-text {
+            font-family: 'Fira Code', monospace;
+            color: var(--text-sub);
             font-size: 0.9em;
+            margin-top: -5px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 15px;
+        }
+
+        .highlight {
+            color: var(--cyber-blue);
+            font-weight: bold;
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* 标签栏 */
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .tech-tag {
+            background: rgba(0, 240, 255, 0.1);
+            color: var(--cyber-blue);
+            border: 1px solid var(--cyber-blue);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* 下载按钮 */
+        .btn-container {
+            text-align: center;
+            margin: 50px 0;
+        }
+
+        .download-btn {
+            display: inline-block;
+            padding: 16px 40px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #000;
+            background: linear-gradient(90deg, var(--primary-pink), var(--cyber-blue));
+            text-decoration: none;
+            border-radius: 30px;
+            transition: 0.3s;
+            box-shadow: 0 0 20px rgba(255, 94, 156, 0.4);
+        }
+
+        .download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.6);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #555;
+            font-size: 0.9em;
+            font-family: 'Fira Code', monospace;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <div class="hero">
         <h1>Rhythm Runner</h1>
-        <div class="subtitle">Automatic Beatmap Generation Through Multi-Layer Audio Analysis.</div>
+        <div class="subtitle">// Music-Driven Side-Scrolling Game</div>
+    </div>
 
-        <p>A Muse Dash-inspired 2D rhythm game where obstacles and enemies are automatically generated from arbitrary audio files using deep audio signal processing.</p>
-
-        <h2>🚀 Core Architecture</h2>
-        <p>This project features a fully automated two-stage pipeline:</p>
-        <ul>
-            <li><span class="highlight">Stage 1: Python & Librosa:</span> Extracts 15+ descriptors including FFT/STFT, onset strength, RMS energy, and HPSS to generate JSON beatmaps.</li>
-            <li><span class="highlight">Stage 2: Godot Engine:</span> Ingests JSON charts and runs a dual-lane side-scrolling gameplay with precise distance-based judgment.</li>
-        </ul>
-
-        <h2>👤 My Contribution (Yiming Zhao)</h2>
-        <ul>
-            <li><span class="highlight">Music Selection & UI Design:</span> Designed and implemented the in-game track preview and selection interface.</li>
-            <li><span class="highlight">Musical Trend Enhancement:</span> Enhanced peak-aware adjustments so beatmap density dynamically follows the song's energy contours.</li>
-        </ul>
-
-        <h2>🛠️ Tech Stack</h2>
-        <div class="tech-stack">
-            <span>Python</span>
-            <span>Godot Engine</span>
-            <span>Librosa</span>
-            <span>NumPy</span>
-            <span>JSON</span>
+    <div class="container">
+        
+        <div class="glass-card">
+            <h2>🌸 项目简介 / Project Overview</h2>
+            <p><b>Rhythm Runner</b> 是一款受《Muse Dash》启发的 2D 音乐节奏游戏。但与传统音游不同，我们构建了一个全自动的谱面生成流水线（Pipeline）。</p>
+            <span class="en-text">Rhythm Runner is a Muse Dash-inspired 2D rhythm game. Unlike traditional rhythm games, we built a fully automated beatmap generation pipeline.</span>
+            <p>系统能够将任意音频文件转化为可玩的关卡，通过深度音频分析与程序化合成，自动生成 Easy、Normal、Hard 三种动态难度的谱面。</p>
+            <span class="en-text">The system converts arbitrary audio files into playable levels, automatically generating dynamic charts for Easy, Normal, and Hard modes through deep audio analysis and procedural synthesis.</span>
         </div>
 
-        <div style="margin-top: 40px; border-top: 1px solid #333; padding-top: 20px;">
-            <p>👉 Check out the full source code and analysis report in this repository.</p>
-            <a href="https://github.com/myrazanglin-art/Rhythm-Runner-Godot" class="btn">View Source Code on GitHub</a>
+        <div class="glass-card">
+            <h2>🎛️ 实验音乐与音频分析 / Audio DSP & MIR</h2>
+            <p>我们没有依赖单调的 BPM 节拍，而是针对实验电子、后摇、独立音乐等复杂音频，提取了超过 15 种深度特征。</p>
+            <span class="en-text">We didn't rely on monotonous BPM beats. Instead, we extracted 15+ deep features tailored for complex audio like experimental electronic, post-rock, and indie music.</span>
+            <ul>
+                <li><b>时域与频谱 / Temporal & Spectral:</b> 起音检测 (Onsets)、频谱质心 (Centroid)、频谱通量 (Flux)。</li>
+                <li><b>能量与动态 / Energy & Dynamics:</b> RMS 包络、动态范围、高频与低频段能量。</li>
+                <li><b>谐波与旋律 / HPSS & Melody:</b> 使用 HPSS 分离打击乐与谐波，用 Piptrack 提取旋律轮廓 (Contours)。</li>
+            </ul>
         </div>
+
+        <div class="glass-card">
+            <h2>⚙️ 核心架构 / Core Architecture</h2>
+            <ul>
+                <li><span class="highlight">Stage 1: Python & Librosa</span><br>负责离线音频分析，提取 15+ 维度特征，并基于段落强度动态生成 JSON 格式的谱面文件。</li>
+                <li><span class="highlight">Stage 2: Godot Engine</span><br>接收 JSON 谱面，基于距离的实时判定系统（Distance-based judgment），运行双轨横版跑酷玩法。</li>
+            </ul>
+        </div>
+
+        <div class="glass-card">
+            <h2>👤 个人贡献 / My Contribution</h2>
+            <p><b>Yiming Zhao</b></p>
+            <ul>
+                <li><b>选曲与 UI 设计 / Music Selection & UI Design:</b> 设计并实现了游戏内的曲目预览与选择界面，契合独立音乐氛围。</li>
+                <li><b>音乐趋势增强 / Musical Trend Enhancement:</b> 优化了峰值感知调整逻辑（Peak-aware adjustments），确保生成的谱面密度完美契合歌曲的动态起伏。</li>
+            </ul>
+        </div>
+
+        <div class="glass-card">
+            <h2>🛠️ 技术栈 / Tech Stack</h2>
+            <div class="tech-stack">
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">Librosa</span>
+                <span class="tech-tag">NumPy</span>
+                <span class="tech-tag">Godot Engine</span>
+                <span class="tech-tag">GDScript</span>
+                <span class="tech-tag">JSON</span>
+                <span class="tech-tag">Audio DSP</span>
+            </div>
+        </div>
+
+        <div class="btn-container">
+            <a href="https://github.com/myrazanglin-art/Rhythm-Runner-Game" class="download-btn">
+                ⬇️ 查看源码与下载项目 / View Source on GitHub
+            </a>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        © 2024 Yiming Zhao. Bridging Computer Music & Gameplay.
     </div>
 
 </body>
