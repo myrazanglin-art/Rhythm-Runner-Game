@@ -1,0 +1,48 @@
+[gd_scene load_steps=3 format=3 uid="uid://ccr1kslli7afs"]
+
+[ext_resource type="Script" uid="uid://b8if00u5jbxt1" path="res://scripts/Game.gd" id="1_m0p7i"]
+[ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_player"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_m0p7i")
+
+[node name="Audio" type="AudioStreamPlayer" parent="."]
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(150, 420)
+
+[node name="HitLine" type="Node2D" parent="."]
+position = Vector2(150, 360)
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Labels" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Score" type="Label" parent="UI/Labels"]
+layout_mode = 0
+offset_right = 400.0
+offset_bottom = 40.0
+text = "Score: 0"
+
+[node name="Combo" type="Label" parent="UI/Labels"]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 400.0
+offset_bottom = 80.0
+text = "Combo: 0"
+
+[node name="Feedback" type="Label" parent="UI/Labels"]
+layout_mode = 0
+offset_top = 80.0
+offset_right = 400.0
+offset_bottom = 120.0

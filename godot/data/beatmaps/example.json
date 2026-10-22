@@ -1,0 +1,38 @@
+{
+  "title": "Example Song",
+  "bpm": 120,
+  "offset": 0.0,
+  "audio": "res://assets/audio/example.ogg",
+  "notes": [
+    { "time": 1.000, "type": "obstacle", "lane": "lower" },
+    { "time": 1.250, "type": "enemy", "lane": "upper" },
+    { "time": 1.500, "type": "enemy", "lane": "lower" },
+    { "time": 1.750, "type": "obstacle", "lane": "upper" },
+    { "time": 2.000, "type": "enemy", "lane": "lower" },
+    { "time": 2.250, "type": "enemy", "lane": "upper" },
+    { "time": 2.500, "type": "obstacle", "lane": "lower" },
+    { "time": 2.750, "type": "enemy", "lane": "upper" },
+    { "time": 3.000, "type": "enemy", "lane": "lower" },
+    { "time": 3.250, "type": "obstacle", "lane": "upper" },
+    { "time": 3.500, "type": "enemy", "lane": "lower" },
+    { "time": 3.750, "type": "enemy", "lane": "upper" },
+    { "time": 4.000, "type": "obstacle", "lane": "lower" },
+    { "time": 4.250, "type": "enemy", "lane": "upper" },
+    { "time": 4.500, "type": "enemy", "lane": "lower" },
+    { "time": 4.750, "type": "enemy", "lane": "upper" },
+    { "time": 5.000, "type": "obstacle", "lane": "lower" },
+    { "time": 5.250, "type": "enemy", "lane": "upper" },
+    { "time": 5.500, "type": "enemy", "lane": "lower" },
+    { "time": 5.750, "type": "obstacle", "lane": "upper" },
+    { "time": 6.000, "type": "enemy", "lane": "lower" },
+    { "time": 6.250, "type": "enemy", "lane": "upper" },
+    { "time": 6.500, "type": "obstacle", "lane": "lower" },
+    { "time": 6.750, "type": "enemy", "lane": "upper" },
+    { "time": 7.000, "type": "enemy", "lane": "lower" },
+    { "time": 7.250, "type": "enemy", "lane": "upper" },
+    { "time": 7.500, "type": "obstacle", "lane": "lower" },
+    { "time": 7.750, "type": "enemy", "lane": "upper" },
+    { "time": 8.000, "type": "enemy", "lane": "lower" }
+  ]
+}
+
